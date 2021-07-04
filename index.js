@@ -1,4 +1,8 @@
 const express = require('express');
+const configureMongoose = require('./config/mongoose-config');
+
+// Configuring our Mongo database with mongoose
+configureMongoose();
 
 const app = express();
 
