@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const BlogSchema = new mongoose.Schema({
+	image: {
+		type: String,
+		default: 'https://images.pexels.com/photos/1591056/pexels-photo-1591056.jpeg',
+	},
 	title: {
 		type: String,
 		required: true,
@@ -20,6 +24,10 @@ const BlogSchema = new mongoose.Schema({
 		},
 	],
 	createdOn: {
+		type: Date,
+		default: Date.now,
+	},
+	updatedOn: {
 		type: Date,
 		default: Date.now,
 	},
