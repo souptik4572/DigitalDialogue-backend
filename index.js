@@ -5,6 +5,9 @@ const userRoutes = require('./routes/users');
 const blogRoutes = require('./routes/blogs');
 const commentRoutes = require('./routes/comments');
 
+// All of our user defined middlewares
+const { authProtection, isSuperAdmin } = require('../middleware/authStrategy');
+
 // Configuring our Mongo database with mongoose
 configureMongoose();
 
@@ -17,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // All of our authentication routes
 app.use('/api/auth', authenticationRoutes);
 // All of our user routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', [authProtection, isSuperAdmin], userRoutes);
 // All of our blog routes
 app.use('/api/blogs', blogRoutes);
 // All of our comment routes

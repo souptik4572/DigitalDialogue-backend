@@ -1,12 +1,11 @@
 const router = require('express').Router();
-const { authProtection, isSuperAdmin } = require('../middleware/authStrategy');
 
 const { getAllUsers, changeUserDesignation, deleteParticularUser } = require('../controllers/user');
 
-router.get('/', [authProtection, isSuperAdmin], getAllUsers);
+router.get('/', getAllUsers);
 
-router.patch('/:userId/changedesignation', [authProtection, isSuperAdmin], changeUserDesignation);
+router.patch('/:userId/changedesignation', changeUserDesignation);
 
-router.delete('/:userId', [authProtection, isSuperAdmin], deleteParticularUser);
+router.delete('/:userId', deleteParticularUser);
 
 module.exports = router;
