@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { READER } = require('../constants/userTypes');
+const { SUPER_ADMIN, ADMIN, READER } = require('../constants/userTypes');
 
 const UserSchema = new mongoose.Schema({
 	name: {
@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	userType: {
 		type: String,
+		enum: [SUPER_ADMIN, ADMIN, READER],
 		default: READER,
 	},
 });

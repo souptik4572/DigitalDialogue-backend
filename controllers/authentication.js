@@ -47,7 +47,7 @@ const loginUser = async (req, res) => {
 			error: 'Password is incorrect',
 		});
 	}
-	const token = jwt.sign({ ...user }, process.env.ACCESS_SECRET_TOKEN, {
+	const token = jwt.sign({ userId: user._id }, process.env.ACCESS_SECRET_TOKEN, {
 		expiresIn: '3 days',
 	});
 	return res.status(201).json({

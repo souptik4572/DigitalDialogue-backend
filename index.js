@@ -1,6 +1,7 @@
 const express = require('express');
 const configureMongoose = require('./config/mongoose-config');
 const authenticationRoutes = require('./routes/authentication');
+const userRoutes = require('./routes/users');
 const blogRoutes = require('./routes/blogs');
 const commentRoutes = require('./routes/comments');
 
@@ -15,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // All of our authentication routes
 app.use('/api/auth', authenticationRoutes);
+// All of our user routes
+app.use('/api/users', userRoutes);
 // All of our blog routes
 app.use('/api/blogs', blogRoutes);
 // All of our comment routes
