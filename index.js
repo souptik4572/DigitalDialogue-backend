@@ -6,7 +6,7 @@ const blogRoutes = require('./routes/blogs');
 const commentRoutes = require('./routes/comments');
 
 // All of our user defined middlewares
-const { authProtection, isSuperAdmin } = require('../middleware/authStrategy');
+const { authProtection, isSuperAdmin } = require('./middlewares/authStrategy');
 
 // Configuring our Mongo database with mongoose
 configureMongoose();

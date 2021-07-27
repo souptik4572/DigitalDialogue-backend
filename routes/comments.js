@@ -1,8 +1,8 @@
 const router = require('express').Router({
 	mergeParams: true,
 });
-const { authProtection } = require('../middleware/authStrategy');
-const { isCommentOwner } = require('../middleware/ownerStrategy');
+const { authProtection } = require('../middlewares/authStrategy');
+const { isCommentOwner } = require('../middlewares/ownerStrategy');
 
 const {
 	getAllComments,
