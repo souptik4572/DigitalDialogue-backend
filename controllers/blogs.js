@@ -3,7 +3,7 @@ const Blog = require('../models/Blog');
 const getParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
-		const blog = await Blog.findById(blogId);
+		const blog = await Blog.findById(blogId).populate('comments');
 		res.status(200).json({
 			success: true,
 			blog,
@@ -19,13 +19,15 @@ const getParticularBlog = async (req, res) => {
 const editParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	const { image, title, content } = req.body;
+	const editedBlogData = {};
+	if (image) editedBlogData.image = image;
+	if (title) editedBlogData.title = title;
+	if (content) editedBlogData.content = content;
 	try {
 		const updatedBlog = await Blog.findByIdAndUpdate(
 			blogId,
 			{
-				title,
-				image,
-				content,
+				...editedBlogData,
 				updatedOn: Date.now(),
 			},
 			{ new: true }

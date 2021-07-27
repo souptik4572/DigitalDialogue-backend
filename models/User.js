@@ -18,12 +18,6 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		default: READER,
 	},
-	likedBlogs: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Blog',
-		},
-	],
 });
 
 const User = mongoose.model('User', UserSchema);

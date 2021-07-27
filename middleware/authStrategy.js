@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { ADMIN, SUPER_ADMIN } = require('../constants/userTypes');
+const { READER } = require('../constants/userTypes');
 
 const authProtection = (req, res, next) => {
 	const token = req.header('Authorization').split(' ')[1];
@@ -23,7 +23,7 @@ const authProtection = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
 	const { user } = req;
-	if (user.userType !== SUPER_ADMIN && user.userType !== ADMIN) {
+	if (user.userType == READER) {
 		return res.status(404).json({
 			success: false,
 			error: 'Access denied',

@@ -13,6 +13,10 @@ const CommentSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 	},
+	associatedBlog: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Blog',
+	},
 });
 
 const Comment = mongoose.model('Comment', CommentSchema);
