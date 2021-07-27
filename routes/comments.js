@@ -9,7 +9,7 @@ const {
 	createNewComment,
 	editExistingComment,
 	deleteExistingComment,
-} = require('../controllers/comment');
+} = require('../controllers/comments');
 
 router.get('/', getAllComments);
 
