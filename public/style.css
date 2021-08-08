@@ -1,0 +1,24 @@
+main {
+    width: 100vw;
+    height: 100vh;
+    background-color: #1a237e;
+    color: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main > .preface {
+    width: 50%;
+    margin: 0px auto;
+}
+
+main > .preface > p {
+    width: 100%;
+    text-align: center;
+}
+
+main > .docs-link {
+    margin: 20px auto;
+}

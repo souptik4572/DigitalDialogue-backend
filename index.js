@@ -17,6 +17,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Our middleware for serving static files
+app.use(express.static('public'));
+
 // All of our authentication routes
 app.use('/api/auth', authenticationRoutes);
 // All of our user routes
@@ -25,6 +28,11 @@ app.use('/api/users', [authProtection, isSuperAdmin], userRoutes);
 app.use('/api/blogs', blogRoutes);
 // All of our comment routes
 app.use('/api/blogs/:blogId/comments', commentRoutes);
+
+// Our initial index static file
+app.get('/', (req, res) => {
+	res.sendFile('index.html');
+});
 
 // Initialising our dynamic port
 const PORT = process.env.PORT || 3000;
