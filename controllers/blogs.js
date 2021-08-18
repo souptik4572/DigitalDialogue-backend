@@ -1,4 +1,5 @@
 const Blog = require('../models/Blog');
+const Comment = require('../models/Comment');
 
 const getParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
@@ -47,6 +48,7 @@ const editParticularBlog = async (req, res) => {
 const deleteParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
+		await Comment.deleteMany({ associatedBlog: blogId });
 		const deletedBlog = await Blog.findByIdAndDelete(blogId);
 		return res.status(200).json({
 			success: true,

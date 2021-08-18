@@ -19,7 +19,6 @@ const getAllComments = async (req, res) => {
 
 const createNewComment = async (req, res) => {
 	const { blogId } = req.params;
-	console.log(req.params);
 	const { text } = req.body;
 	try {
 		const comment = await Comment.create({
@@ -69,7 +68,7 @@ const deleteExistingComment = async (req, res) => {
 	const { blogId, commentId } = req.params;
 	try {
 		const comment = await Comment.findByIdAndDelete(commentId);
-		const blog = await Blog.updateOne(
+		await Blog.updateOne(
 			{ _id: blogId },
 			{
 				$pull: {
