@@ -2,6 +2,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const generateToken = (userId) => {
+	const token = jwt.sign({ userId }, process.env.ACCESS_SECRET_TOKEN, {
+		expiresIn: '3 days',
+	});
+	return token;
+};
+
 const registerNewUser = async (req, res) => {
 	const { name, email, password } = req.body;
 	const user = await User.findOne({ email });
@@ -21,6 +28,8 @@ const registerNewUser = async (req, res) => {
 		});
 		return res.status(201).json({
 			success: true,
+			token: generateToken(user._id),
+			userType: user.userType,
 			user,
 		});
 	} catch (error) {
@@ -47,12 +56,9 @@ const loginUser = async (req, res) => {
 			error: 'Password is incorrect',
 		});
 	}
-	const token = jwt.sign({ userId: user._id }, process.env.ACCESS_SECRET_TOKEN, {
-		expiresIn: '3 days',
-	});
 	return res.status(201).json({
 		success: true,
-		token,
+		token: generateToken(user._id),
 		userType: user.userType,
 	});
 };
