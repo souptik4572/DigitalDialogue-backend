@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const configureMongoose = require('./config/mongoose-config');
 const authenticationRoutes = require('./routes/authentication');
 const userRoutes = require('./routes/users');
@@ -12,6 +13,9 @@ const { authProtection, isSuperAdmin } = require('./middlewares/authStrategy');
 configureMongoose();
 
 const app = express();
+
+// Our cross origin resource sharing middleware
+app.use(cors());
 
 // Our body-parser middlewares
 app.use(express.json());
