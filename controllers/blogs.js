@@ -17,6 +17,38 @@ const getParticularBlog = async (req, res) => {
 	}
 };
 
+const updateLikeOfParticularBlog = async (req, res) => {
+	const { blogId } = req.params;
+	try {
+		const blog = await Blog.findById(blogId);
+		const isLiked = await Blog.find({
+			_id: blogId,
+			usersWhoLiked: {
+				$in: [req.user._id],
+			},
+		}).countDocuments();
+		if (isLiked) {
+			blog.usersWhoLiked = blog.usersWhoLiked.filter(
+				(anUserId) => String(anUserId) !== String(req.user._id)
+			);
+			blog.likes -= 1;
+		} else {
+			blog.usersWhoLiked.push(req.user._id);
+			blog.likes += 1;
+		}
+		await blog.save();
+		return res.status(200).json({
+			success: true,
+			blog,
+		});
+	} catch (error) {
+		return res.status(404).json({
+			success: false,
+			error: error.message,
+		});
+	}
+};
+
 const editParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	const { image, title, content } = req.body;
@@ -100,6 +132,7 @@ const createNewBlog = async (req, res) => {
 
 module.exports = {
 	getParticularBlog,
+	updateLikeOfParticularBlog,
 	editParticularBlog,
 	deleteParticularBlog,
 	getAllBlogs,

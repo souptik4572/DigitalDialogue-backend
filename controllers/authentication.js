@@ -30,7 +30,6 @@ const registerNewUser = async (req, res) => {
 			success: true,
 			token: generateToken(user._id),
 			userType: user.userType,
-			user,
 		});
 	} catch (error) {
 		return res.status(404).json({
