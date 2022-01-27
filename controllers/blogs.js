@@ -1,6 +1,12 @@
 const Blog = require('../models/Blog');
 const Comment = require('../models/Comment');
 
+/**
+ * @description API to fetch a particular blog
+ * @route GET /:blogId
+ * @param blogId
+ * @access Public
+ */
 const getParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
@@ -17,6 +23,12 @@ const getParticularBlog = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to like an existing blog
+ * @route PATCH /:blogId/like
+ * @param blogId
+ * @access Private, only accessible by the logged in user through JWT
+ */
 const updateLikeOfParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
@@ -49,6 +61,12 @@ const updateLikeOfParticularBlog = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to update content an existing blog
+ * @route PATCH /:blogId
+ * @param blogId
+ * @access Private, only accessible by the owner of the blog and the SUPER_ADMIN
+ */
 const editParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	const { image, title, content } = req.body;
@@ -77,6 +95,12 @@ const editParticularBlog = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to delete an existing blog
+ * @route DELETE /:blogId
+ * @param blogId
+ * @access Private, only accessible by the owner of the blog and the SUPER_ADMIN
+ */
 const deleteParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
@@ -94,6 +118,11 @@ const deleteParticularBlog = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to fetch all the available blogs
+ * @route GET /
+ * @access Public
+ */
 const getAllBlogs = async (req, res) => {
 	try {
 		const blogs = await Blog.find({});
@@ -109,6 +138,11 @@ const getAllBlogs = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to create a new blog
+ * @route PUT /
+ * @access Private, only accessible to the logged in user through JWT
+ */
 const createNewBlog = async (req, res) => {
 	const { title, content, image } = req.body;
 	try {

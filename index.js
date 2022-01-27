@@ -12,6 +12,7 @@ const { authProtection, isSuperAdmin } = require('./middlewares/authStrategy');
 // Configuring our Mongo database with mongoose
 configureMongoose();
 
+// Defining our express app
 const app = express();
 
 // Our cross origin resource sharing middleware

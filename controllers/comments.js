@@ -1,6 +1,12 @@
 const Blog = require('../models/Blog');
 const Comment = require('../models/Comment');
 
+/**
+ * @description API to fetch all comments made on an existing blog
+ * @route GET /:blogId/comments
+ * @param blogId
+ * @access Public
+ */
 const getAllComments = async (req, res) => {
 	const { blogId } = req.params;
 	try {
@@ -17,6 +23,12 @@ const getAllComments = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to create a new comment on an existing blog
+ * @route PUT /:blogId/comments/
+ * @param blogId
+ * @access Private, only accessible to the logged in user through JWT
+ */
 const createNewComment = async (req, res) => {
 	const { blogId } = req.params;
 	const { text } = req.body;
@@ -41,6 +53,13 @@ const createNewComment = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to edit the contents of an existing comment on an existing blog
+ * @route PATCH /:blogId/comments/:commentId
+ * @param blogId
+ * @param commentId
+ * @access Private, only accessible by the comment owner
+ */
 const editExistingComment = async (req, res) => {
 	const { commentId } = req.params;
 	const { text } = req.body;
@@ -64,6 +83,13 @@ const editExistingComment = async (req, res) => {
 	}
 };
 
+/**
+ * @description API to delete an existing comment on an existing blog
+ * @route DELETE /:blogId/comments/:commentId
+ * @param blogId
+ * @param commentId
+ * @access Private, only accessible by the comment owner
+ */
 const deleteExistingComment = async (req, res) => {
 	const { blogId, commentId } = req.params;
 	try {
