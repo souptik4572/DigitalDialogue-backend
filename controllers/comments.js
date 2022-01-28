@@ -13,6 +13,7 @@ const getAllComments = async (req, res) => {
 		const comments = await Comment.find({ associatedBlog: blogId });
 		return res.status(200).json({
 			success: true,
+			message: `List of all comments on blog with id ${blogId}`,
 			comments,
 		});
 	} catch (error) {
@@ -38,12 +39,14 @@ const createNewComment = async (req, res) => {
 			createdBy: req.user._id,
 			associatedBlog: blogId,
 		});
-		const blog = await Blog.findById(blogId);
-		blog.comments.push(comment._id);
-		await blog.save();
+		await Blog.findByIdAndUpdate(blogId, {
+			$push: {
+				comments: comment._id,
+			},
+		});
 		return res.status(200).json({
 			success: true,
-			comment,
+			message: 'Comment has been created successfully',
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -73,6 +76,7 @@ const editExistingComment = async (req, res) => {
 		);
 		return res.status(200).json({
 			success: true,
+			message: 'Comment has been updated successfully',
 			comment,
 		});
 	} catch (error) {
@@ -93,18 +97,15 @@ const editExistingComment = async (req, res) => {
 const deleteExistingComment = async (req, res) => {
 	const { blogId, commentId } = req.params;
 	try {
-		const comment = await Comment.findByIdAndDelete(commentId);
-		await Blog.updateOne(
-			{ _id: blogId },
-			{
-				$pull: {
-					comments: commentId,
-				},
-			}
-		);
+		await Comment.findByIdAndDelete(commentId);
+		await Blog.findByIdAndUpdate(blogId, {
+			$pull: {
+				comments: commentId,
+			},
+		});
 		return res.status(200).json({
 			success: true,
-			comment,
+			message: 'Comment has been deleted successfully',
 		});
 	} catch (error) {
 		return res.status(404).json({
