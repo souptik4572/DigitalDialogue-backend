@@ -13,6 +13,7 @@ const getParticularBlog = async (req, res) => {
 		const blog = await Blog.findById(blogId).populate('comments');
 		res.status(200).json({
 			success: true,
+			message: `The required blog with id ${blogId}`,
 			blog,
 		});
 	} catch (error) {
@@ -51,6 +52,7 @@ const updateLikeOfParticularBlog = async (req, res) => {
 		await blog.save();
 		return res.status(200).json({
 			success: true,
+			message: isLiked ? 'The like has been removed' : 'The like was added',
 			blog,
 		});
 	} catch (error) {
@@ -75,7 +77,7 @@ const editParticularBlog = async (req, res) => {
 	if (title) editedBlogData.title = title;
 	if (content) editedBlogData.content = content;
 	try {
-		const updatedBlog = await Blog.findByIdAndUpdate(
+		await Blog.findByIdAndUpdate(
 			blogId,
 			{
 				...editedBlogData,
@@ -85,7 +87,7 @@ const editParticularBlog = async (req, res) => {
 		);
 		return res.status(200).json({
 			success: true,
-			blog: updatedBlog,
+			message: 'Blog has been updated successfully'
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -105,10 +107,10 @@ const deleteParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
 		await Comment.deleteMany({ associatedBlog: blogId });
-		const deletedBlog = await Blog.findByIdAndDelete(blogId);
+		await Blog.findByIdAndDelete(blogId);
 		return res.status(200).json({
 			success: true,
-			blog: deletedBlog,
+			message: 'The blog has been successfully deleted'
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -128,6 +130,7 @@ const getAllBlogs = async (req, res) => {
 		const blogs = await Blog.find({});
 		return res.status(200).json({
 			success: true,
+			message: 'List of all existing blogs',
 			blogs,
 		});
 	} catch (error) {
@@ -146,7 +149,7 @@ const getAllBlogs = async (req, res) => {
 const createNewBlog = async (req, res) => {
 	const { title, content, image } = req.body;
 	try {
-		const newBlog = await Blog.create({
+		await Blog.create({
 			image,
 			title,
 			content,
@@ -154,7 +157,7 @@ const createNewBlog = async (req, res) => {
 		});
 		return res.status(200).json({
 			success: true,
-			blog: newBlog,
+			message: 'New blog has been created successfully'
 		});
 	} catch (error) {
 		return res.status(404).json({
