@@ -7,7 +7,7 @@ const authProtection = async (req, res, next) => {
 	if (!token) {
 		res.status(404).json({
 			success: false,
-			error: 'Access denied',
+			message: 'Access denied',
 		});
 	}
 	try {
@@ -17,7 +17,7 @@ const authProtection = async (req, res, next) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -27,7 +27,7 @@ const isAdmin = (req, res, next) => {
 	if (user.userType === READER) {
 		return res.status(404).json({
 			success: false,
-			error: 'Access denied',
+			message: 'Access denied',
 		});
 	}
 	next();
@@ -38,7 +38,7 @@ const isSuperAdmin = (req, res, next) => {
 	if (user.userType !== SUPER_ADMIN) {
 		return res.status(404).json({
 			success: false,
-			error: 'Access denied',
+			message: 'Access denied',
 		});
 	}
 	next();

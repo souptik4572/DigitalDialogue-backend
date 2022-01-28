@@ -18,7 +18,7 @@ const getParticularBlog = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -56,7 +56,7 @@ const updateLikeOfParticularBlog = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -90,7 +90,7 @@ const editParticularBlog = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -113,7 +113,7 @@ const deleteParticularBlog = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -133,7 +133,7 @@ const getAllBlogs = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -159,7 +159,7 @@ const createNewBlog = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };

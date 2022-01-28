@@ -21,7 +21,7 @@ const registerNewUser = async (req, res) => {
 	if (user) {
 		return res.status(404).json({
 			success: false,
-			error: 'Email already exists',
+			message: 'Email already exists',
 		});
 	}
 	const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
@@ -34,13 +34,14 @@ const registerNewUser = async (req, res) => {
 		});
 		return res.status(201).json({
 			success: true,
+			message: 'Successfully registered new user',
 			token: generateToken(user._id),
 			userType: user.userType,
 		});
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -56,18 +57,19 @@ const loginUser = async (req, res) => {
 	if (!user) {
 		return res.status(404).json({
 			success: false,
-			error: 'User does not exist',
+			message: 'User does not exist',
 		});
 	}
 	const isPasswordValid = await bcrypt.compare(password, user.password);
 	if (!isPasswordValid) {
 		return res.status(404).json({
 			success: false,
-			error: 'Password is incorrect',
+			message: 'Password is incorrect',
 		});
 	}
 	return res.status(201).json({
 		success: true,
+		message: 'Logged in successfully',
 		token: generateToken(user._id),
 		userType: user.userType,
 	});

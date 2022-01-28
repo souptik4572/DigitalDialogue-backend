@@ -9,14 +9,14 @@ const isBlogOwner = async (req, res, next) => {
 		if (req.user.userType !== SUPER_ADMIN && blog.createdBy !== req.user._id) {
 			return res.status(404).json({
 				success: false,
-				error: 'Access denied',
+				message: 'Access denied',
 			});
 		}
 		next();
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -28,14 +28,14 @@ const isCommentOwner = async (req, res, next) => {
 		if (req.user.userType !== SUPER_ADMIN && comment.createdBy !== req.user._id) {
 			return res.status(404).json({
 				success: false,
-				error: 'Access denied',
+				message: 'Access denied',
 			});
 		}
 		next();
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };

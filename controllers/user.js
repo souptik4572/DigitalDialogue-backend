@@ -19,7 +19,7 @@ const getAllUsers = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -42,7 +42,7 @@ const changeUserDesignation = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
@@ -64,7 +64,7 @@ const deleteParticularUser = async (req, res) => {
 	} catch (error) {
 		return res.status(404).json({
 			success: false,
-			error: error.message,
+			message: error.message,
 		});
 	}
 };
