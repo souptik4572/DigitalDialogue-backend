@@ -14,6 +14,7 @@ const getAllUsers = async (req, res) => {
 		});
 		return res.status(200).json({
 			success: true,
+			message: 'List of existing users in our system',
 			users,
 		});
 	} catch (error) {
@@ -37,7 +38,7 @@ const changeUserDesignation = async (req, res) => {
 		const user = await User.findByIdAndUpdate(userId, { userType: newUserType }, { new: true });
 		return res.status(200).json({
 			success: true,
-			user,
+			message: `Successfully changed user designation to ${newUserType}`,
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -59,7 +60,7 @@ const deleteParticularUser = async (req, res) => {
 		const user = await User.findByIdAndDelete(userId);
 		return res.status(200).json({
 			success: true,
-			user,
+			message: 'User has been deleted successfully',
 		});
 	} catch (error) {
 		return res.status(404).json({
