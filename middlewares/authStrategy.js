@@ -1,13 +1,15 @@
-const jwt = require('jsonwebtoken');
-const { SUPER_ADMIN, READER } = require('../constants/userTypes');
-const User = require('../models/User');
+// Load environment variables first
+import "../config/env-config.js";
+import jwt from "jsonwebtoken";
+import { SUPER_ADMIN, READER } from "../constants/userTypes.js";
+import User from "../models/User.js";
 
-const authProtection = async (req, res, next) => {
-	const token = req.header('Authorization').split(' ')[1];
+export const authProtection = async (req, res, next) => {
+	const token = req.header("Authorization").split(" ")[1];
 	if (!token) {
 		res.status(404).json({
 			success: false,
-			message: 'Access denied',
+			message: "Access denied",
 		});
 	}
 	try {
@@ -22,26 +24,24 @@ const authProtection = async (req, res, next) => {
 	}
 };
 
-const isAdmin = (req, res, next) => {
+export const isAdmin = (req, res, next) => {
 	const { user } = req;
 	if (user.userType === READER) {
 		return res.status(404).json({
 			success: false,
-			message: 'Access denied',
+			message: "Access denied",
 		});
 	}
 	next();
 };
 
-const isSuperAdmin = (req, res, next) => {
+export const isSuperAdmin = (req, res, next) => {
 	const { user } = req;
 	if (user.userType !== SUPER_ADMIN) {
 		return res.status(404).json({
 			success: false,
-			message: 'Access denied',
+			message: "Access denied",
 		});
 	}
 	next();
 };
-
-module.exports = { authProtection, isAdmin, isSuperAdmin };

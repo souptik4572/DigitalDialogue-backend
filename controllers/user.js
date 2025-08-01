@@ -1,11 +1,11 @@
-const User = require('../models/User');
+import User from "../models/User.js";
 
 /**
  * @description API to get all users who are present in our application
  * @route GET /
  * @access Private, only accessible by SUPER_ADMIN users
  */
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
 	try {
 		const users = await User.find({
 			_id: {
@@ -14,7 +14,7 @@ const getAllUsers = async (req, res) => {
 		});
 		return res.status(200).json({
 			success: true,
-			message: 'List of existing users in our system',
+			message: "List of existing users in our system",
 			users,
 		});
 	} catch (error) {
@@ -31,11 +31,15 @@ const getAllUsers = async (req, res) => {
  * @param userId
  * @access Private, only accessible by SUPER_ADMIN users
  */
-const changeUserDesignation = async (req, res) => {
+export const changeUserDesignation = async (req, res) => {
 	const { userId } = req.params;
 	const { newUserType } = req.body;
 	try {
-		const user = await User.findByIdAndUpdate(userId, { userType: newUserType }, { new: true });
+		const user = await User.findByIdAndUpdate(
+			userId,
+			{ userType: newUserType },
+			{ new: true }
+		);
 		return res.status(200).json({
 			success: true,
 			message: `Successfully changed user designation to ${newUserType}`,
@@ -54,13 +58,13 @@ const changeUserDesignation = async (req, res) => {
  * @param userId
  * @access Private, only accessible by SUPER_ADMIN users
  */
-const deleteParticularUser = async (req, res) => {
+export const deleteParticularUser = async (req, res) => {
 	const { userId } = req.params;
 	try {
 		const user = await User.findByIdAndDelete(userId);
 		return res.status(200).json({
 			success: true,
-			message: 'User has been deleted successfully',
+			message: "User has been deleted successfully",
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -68,10 +72,4 @@ const deleteParticularUser = async (req, res) => {
 			message: error.message,
 		});
 	}
-};
-
-module.exports = {
-	getAllUsers,
-	changeUserDesignation,
-	deleteParticularUser,
 };

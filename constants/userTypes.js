@@ -1,9 +1,3 @@
-const SUPER_ADMIN = 'SUPER_ADMIN';
-const ADMIN = 'ADMIN';
-const READER = 'READER';
-
-module.exports = {
-	SUPER_ADMIN,
-	ADMIN,
-	READER,
-};
+export const SUPER_ADMIN = "SUPER_ADMIN";
+export const ADMIN = "ADMIN";
+export const READER = "READER";

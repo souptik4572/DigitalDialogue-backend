@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { SUPER_ADMIN, ADMIN, READER } = require('../constants/userTypes');
+import mongoose from "mongoose";
+import { SUPER_ADMIN, ADMIN, READER } from "../constants/userTypes.js";
 
 const UserSchema = new mongoose.Schema({
 	name: {
@@ -21,6 +21,6 @@ const UserSchema = new mongoose.Schema({
 	},
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
-module.exports = User;
+export default User;

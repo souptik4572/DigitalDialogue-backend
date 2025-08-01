@@ -1,14 +1,20 @@
-const router = require('express').Router();
+import { Router } from "express";
 
-const { getAllUsers, changeUserDesignation, deleteParticularUser } = require('../controllers/user');
+import {
+	getAllUsers,
+	changeUserDesignation,
+	deleteParticularUser,
+} from "../controllers/user.js";
 
-// Get all registered routes for 
-router.get('/', getAllUsers);
+const router = Router();
+
+// Get all registered routes for
+router.get("/", getAllUsers);
 
 // Update user designation (userType property)
-router.patch('/:userId/changedesignation', changeUserDesignation);
+router.patch("/:userId/changedesignation", changeUserDesignation);
 
 // Delete a particular user
-router.delete('/:userId', deleteParticularUser);
+router.delete("/:userId", deleteParticularUser);
 
-module.exports = router;
+export default router;

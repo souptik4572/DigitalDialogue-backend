@@ -1,13 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const configureMongoose = require('./config/mongoose-config');
-const authenticationRoutes = require('./routes/authentication');
-const userRoutes = require('./routes/users');
-const blogRoutes = require('./routes/blogs');
-const commentRoutes = require('./routes/comments');
+// Load environment variables FIRST
+import "./config/env-config.js";
+
+import express from "express";
+import cors from "cors";
+import configureMongoose from "./config/mongoose-config.js";
+import authenticationRoutes from "./routes/authentication.js";
+import userRoutes from "./routes/users.js";
+import blogRoutes from "./routes/blogs.js";
+import commentRoutes from "./routes/comments.js";
 
 // All of our user defined middlewares
-const { authProtection, isSuperAdmin } = require('./middlewares/authStrategy');
+import { authProtection, isSuperAdmin } from "./middlewares/authStrategy.js";
 
 // Configuring our Mongo database with mongoose
 configureMongoose();
@@ -23,20 +26,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Our middleware for serving static files
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // All of our authentication routes
-app.use('/api/auth', authenticationRoutes);
+app.use("/api/auth", authenticationRoutes);
 // All of our user routes
-app.use('/api/users', [authProtection, isSuperAdmin], userRoutes);
+app.use("/api/users", [authProtection, isSuperAdmin], userRoutes);
 // All of our blog routes
-app.use('/api/blogs', blogRoutes);
+app.use("/api/blogs", blogRoutes);
 // All of our comment routes
-app.use('/api/blogs/:blogId/comments', commentRoutes);
+app.use("/api/blogs/:blogId/comments", commentRoutes);
 
 // Our initial index static file
-app.get('/', (req, res) => {
-	res.sendFile('index.html');
+app.get("/", (req, res) => {
+	res.sendFile("index.html");
 });
 
 // Initialising our dynamic port

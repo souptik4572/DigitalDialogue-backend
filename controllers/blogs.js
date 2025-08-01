@@ -1,5 +1,5 @@
-const Blog = require('../models/Blog');
-const Comment = require('../models/Comment');
+import Blog from "../models/Blog.js";
+import Comment from "../models/Comment.js";
 
 /**
  * @description API to fetch a particular blog
@@ -7,10 +7,10 @@ const Comment = require('../models/Comment');
  * @param blogId
  * @access Public
  */
-const getParticularBlog = async (req, res) => {
+export const getParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
-		const blog = await Blog.findById(blogId).populate('comments');
+		const blog = await Blog.findById(blogId).populate("comments");
 		res.status(200).json({
 			success: true,
 			message: `The required blog with id ${blogId}`,
@@ -30,7 +30,7 @@ const getParticularBlog = async (req, res) => {
  * @param blogId
  * @access Private, only accessible by the logged in user through JWT
  */
-const updateLikeOfParticularBlog = async (req, res) => {
+export const updateLikeOfParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
 		const blog = await Blog.findById(blogId);
@@ -52,7 +52,9 @@ const updateLikeOfParticularBlog = async (req, res) => {
 		await blog.save();
 		return res.status(200).json({
 			success: true,
-			message: isLiked ? 'The like has been removed' : 'The like was added',
+			message: isLiked
+				? "The like has been removed"
+				: "The like was added",
 			blog,
 		});
 	} catch (error) {
@@ -69,7 +71,7 @@ const updateLikeOfParticularBlog = async (req, res) => {
  * @param blogId
  * @access Private, only accessible by the owner of the blog and the SUPER_ADMIN
  */
-const editParticularBlog = async (req, res) => {
+export const editParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	const { image, title, content } = req.body;
 	const editedBlogData = {};
@@ -87,7 +89,7 @@ const editParticularBlog = async (req, res) => {
 		);
 		return res.status(200).json({
 			success: true,
-			message: 'Blog has been updated successfully'
+			message: "Blog has been updated successfully",
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -103,14 +105,14 @@ const editParticularBlog = async (req, res) => {
  * @param blogId
  * @access Private, only accessible by the owner of the blog and the SUPER_ADMIN
  */
-const deleteParticularBlog = async (req, res) => {
+export const deleteParticularBlog = async (req, res) => {
 	const { blogId } = req.params;
 	try {
 		await Comment.deleteMany({ associatedBlog: blogId });
 		await Blog.findByIdAndDelete(blogId);
 		return res.status(200).json({
 			success: true,
-			message: 'The blog has been successfully deleted'
+			message: "The blog has been successfully deleted",
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -125,12 +127,12 @@ const deleteParticularBlog = async (req, res) => {
  * @route GET /
  * @access Public
  */
-const getAllBlogs = async (req, res) => {
+export const getAllBlogs = async (req, res) => {
 	try {
 		const blogs = await Blog.find({});
 		return res.status(200).json({
 			success: true,
-			message: 'List of all existing blogs',
+			message: "List of all existing blogs",
 			blogs,
 		});
 	} catch (error) {
@@ -146,7 +148,7 @@ const getAllBlogs = async (req, res) => {
  * @route PUT /
  * @access Private, only accessible to the logged in user through JWT
  */
-const createNewBlog = async (req, res) => {
+export const createNewBlog = async (req, res) => {
 	const { title, content, image } = req.body;
 	try {
 		await Blog.create({
@@ -157,7 +159,7 @@ const createNewBlog = async (req, res) => {
 		});
 		return res.status(200).json({
 			success: true,
-			message: 'New blog has been created successfully'
+			message: "New blog has been created successfully",
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -165,13 +167,4 @@ const createNewBlog = async (req, res) => {
 			message: error.message,
 		});
 	}
-};
-
-module.exports = {
-	getParticularBlog,
-	updateLikeOfParticularBlog,
-	editParticularBlog,
-	deleteParticularBlog,
-	getAllBlogs,
-	createNewBlog,
 };

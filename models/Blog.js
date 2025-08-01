@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const BlogSchema = new mongoose.Schema({
 	image: {
 		type: String,
-		default: 'https://images.pexels.com/photos/1591056/pexels-photo-1591056.jpeg',
+		default:
+			"https://images.pexels.com/photos/1591056/pexels-photo-1591056.jpeg",
 	},
 	title: {
 		type: String,
@@ -20,13 +21,13 @@ const BlogSchema = new mongoose.Schema({
 	usersWhoLiked: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			ref: "User",
 		},
 	],
 	comments: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Comment',
+			ref: "Comment",
 		},
 	],
 	createdOn: {
@@ -39,10 +40,10 @@ const BlogSchema = new mongoose.Schema({
 	},
 	createdBy: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+		ref: "User",
 	},
 });
 
-const Blog = mongoose.model('Blog', BlogSchema);
+const Blog = mongoose.model("Blog", BlogSchema);
 
-module.exports = Blog;
+export default Blog;

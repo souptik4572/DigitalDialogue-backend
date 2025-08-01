@@ -1,5 +1,5 @@
-const Blog = require('../models/Blog');
-const Comment = require('../models/Comment');
+import Blog from "../models/Blog.js";
+import Comment from "../models/Comment.js";
 
 /**
  * @description API to fetch all comments made on an existing blog
@@ -7,7 +7,7 @@ const Comment = require('../models/Comment');
  * @param blogId
  * @access Public
  */
-const getAllComments = async (req, res) => {
+export const getAllComments = async (req, res) => {
 	const { blogId } = req.params;
 	try {
 		const comments = await Comment.find({ associatedBlog: blogId });
@@ -30,7 +30,7 @@ const getAllComments = async (req, res) => {
  * @param blogId
  * @access Private, only accessible to the logged in user through JWT
  */
-const createNewComment = async (req, res) => {
+export const createNewComment = async (req, res) => {
 	const { blogId } = req.params;
 	const { text } = req.body;
 	try {
@@ -46,7 +46,7 @@ const createNewComment = async (req, res) => {
 		});
 		return res.status(200).json({
 			success: true,
-			message: 'Comment has been created successfully',
+			message: "Comment has been created successfully",
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -63,7 +63,7 @@ const createNewComment = async (req, res) => {
  * @param commentId
  * @access Private, only accessible by the comment owner
  */
-const editExistingComment = async (req, res) => {
+export const editExistingComment = async (req, res) => {
 	const { commentId } = req.params;
 	const { text } = req.body;
 	try {
@@ -76,7 +76,7 @@ const editExistingComment = async (req, res) => {
 		);
 		return res.status(200).json({
 			success: true,
-			message: 'Comment has been updated successfully',
+			message: "Comment has been updated successfully",
 			comment,
 		});
 	} catch (error) {
@@ -94,7 +94,7 @@ const editExistingComment = async (req, res) => {
  * @param commentId
  * @access Private, only accessible by the comment owner
  */
-const deleteExistingComment = async (req, res) => {
+export const deleteExistingComment = async (req, res) => {
 	const { blogId, commentId } = req.params;
 	try {
 		await Comment.findByIdAndDelete(commentId);
@@ -105,7 +105,7 @@ const deleteExistingComment = async (req, res) => {
 		});
 		return res.status(200).json({
 			success: true,
-			message: 'Comment has been deleted successfully',
+			message: "Comment has been deleted successfully",
 		});
 	} catch (error) {
 		return res.status(404).json({
@@ -113,11 +113,4 @@ const deleteExistingComment = async (req, res) => {
 			message: error.message,
 		});
 	}
-};
-
-module.exports = {
-	getAllComments,
-	createNewComment,
-	editExistingComment,
-	deleteExistingComment,
 };

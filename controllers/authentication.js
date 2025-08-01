@@ -1,11 +1,17 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+// Load environment variables first
+import "../config/env-config.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 // Generating jwt token for authorization
 const generateToken = (userId) => {
+	console.log(
+		"Value of Access Secret Token: ",
+		process.env.ACCESS_SECRET_TOKEN
+	);
 	const token = jwt.sign({ userId }, process.env.ACCESS_SECRET_TOKEN, {
-		expiresIn: '3 days',
+		expiresIn: "3 days",
 	});
 	return token;
 };
@@ -15,13 +21,13 @@ const generateToken = (userId) => {
  * @route PUT /register
  * @access Public
  */
-const registerNewUser = async (req, res) => {
+export const registerNewUser = async (req, res) => {
 	const { name, email, password } = req.body;
 	const user = await User.findOne({ email });
 	if (user) {
 		return res.status(404).json({
 			success: false,
-			message: 'Email already exists',
+			message: "Email already exists",
 		});
 	}
 	const salt = await bcrypt.genSalt(Number(process.env.BCRYPT_SALT));
@@ -34,7 +40,7 @@ const registerNewUser = async (req, res) => {
 		});
 		return res.status(201).json({
 			success: true,
-			message: 'Successfully registered new user',
+			message: "Successfully registered new user",
 			token: generateToken(user._id),
 			userType: user.userType,
 		});
@@ -51,31 +57,26 @@ const registerNewUser = async (req, res) => {
  * @route POST /login
  * @access Public
  */
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
 	if (!user) {
 		return res.status(404).json({
 			success: false,
-			message: 'User does not exist',
+			message: "User does not exist",
 		});
 	}
 	const isPasswordValid = await bcrypt.compare(password, user.password);
 	if (!isPasswordValid) {
 		return res.status(404).json({
 			success: false,
-			message: 'Password is incorrect',
+			message: "Password is incorrect",
 		});
 	}
 	return res.status(201).json({
 		success: true,
-		message: 'Logged in successfully',
+		message: "Logged in successfully",
 		token: generateToken(user._id),
 		userType: user.userType,
 	});
-};
-
-module.exports = {
-	registerNewUser,
-	loginUser,
 };
