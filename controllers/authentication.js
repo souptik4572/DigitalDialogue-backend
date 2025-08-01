@@ -6,10 +6,6 @@ import User from "../models/User.js";
 
 // Generating jwt token for authorization
 const generateToken = (userId) => {
-	console.log(
-		"Value of Access Secret Token: ",
-		process.env.ACCESS_SECRET_TOKEN
-	);
 	const token = jwt.sign({ userId }, process.env.ACCESS_SECRET_TOKEN, {
 		expiresIn: "3 days",
 	});
