@@ -8,9 +8,13 @@ import authenticationRoutes from "./routes/authentication.js";
 import userRoutes from "./routes/users.js";
 import blogRoutes from "./routes/blogs.js";
 import commentRoutes from "./routes/comments.js";
+import dotenv from 'dotenv';
 
 // All of our user defined middlewares
 import { authProtection, isSuperAdmin } from "./middlewares/authStrategy.js";
+
+// Load environment variables
+dotenv.config();
 
 // Configuring our Mongo database with mongoose
 configureMongoose();
